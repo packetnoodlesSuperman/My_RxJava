@@ -21,7 +21,12 @@ public class MainActivity extends AppCompatActivity {
         demo2();
     }
 
-    private void demo1() {
+    public static void main(String[] args) {
+        demo1();
+        demo2();
+    }
+
+    private static void demo1() {
         //创建一个上游 Observable：
         Observable<Integer> observable = Observable.create(new ObservableOnSubscribe<Integer>() {
             @Override
@@ -36,19 +41,19 @@ public class MainActivity extends AppCompatActivity {
         //创建一个下游 Observer
         Observer<Integer> observer = new Observer<Integer>() {
             @Override
-            public void onSubscribe(Disposable d) { Log.d("TAG", "subscribe"); }
+            public void onSubscribe(Disposable d) { System.out.println("subscribe"); }
             @Override
-            public void onNext(Integer value) { Log.d("TAG", "" + value); }
+            public void onNext(Integer value) { System.out.println("" + value); }
             @Override
-            public void onError(Throwable e) { Log.d("TAG", "error"); }
+            public void onError(Throwable e) { System.out.println("error"); }
             @Override
-            public void onComplete() { Log.d("TAG", "complete"); }
+            public void onComplete() { System.out.println("complete"); }
         };
         //建立连接 只有当上游和下游建立连接后, 上游才开始发送事件. 也就是调用了subscribe() 方法后才开始发送事件
         observable.subscribe(observer);
     }
 
-    private void demo2() {
+    private static void demo2() {
 
     }
 }

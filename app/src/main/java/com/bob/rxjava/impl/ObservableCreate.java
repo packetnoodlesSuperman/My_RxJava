@@ -59,7 +59,14 @@ public final class ObservableCreate<T> extends Observable<T> {
         }
 
         @Override
-        public void onNext(T value) {
+        public void onNext(T t) {
+            if (t == null) {
+                //在这里抛出异常
+                return;
+            }
+            if (!isDisposed()) {
+                observer.onNext(t);
+            }
 
         }
 
@@ -70,7 +77,13 @@ public final class ObservableCreate<T> extends Observable<T> {
 
         @Override
         public void onComplete() {
-
+            if (!isDisposed()) {
+                try {
+                    observer.onComplete();
+                } finally {
+                    dispose();
+                }
+            }
         }
     }
 }
