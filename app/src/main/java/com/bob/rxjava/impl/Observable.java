@@ -11,6 +11,11 @@ public abstract class Observable<T> implements ObservableSource<T> {
         return RxJavaPlugins.onAssembly(new ObservableCreate<T>(source));
     }
 
+    public static <T> Observable<T> just(T item) {
+        return RxJavaPlugins.onAssembly(new ObservableJust<T>(item));
+    }
+
+
     protected abstract void subscribeActual(Observer<? super T> observer);
 
     @Override
