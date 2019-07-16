@@ -10,8 +10,14 @@ public final class RxJavaPlugins {
     static volatile Function<? super Observable, ? extends Observable> onObservableAssembly;
     static volatile BiFunction<? super Observable, ? super Observer, ? extends Observer> onObservableSubscribe;
 
+    /**
+     * 这个方法是个 hook function
+     * onObservableAssembly 可以通过静态方法RxJavaPlugins.setOnObservableAssembly() 设置全局的Hook函数
+     */
    public static <T> Observable<T> onAssembly(Observable<T> source) {
        Function<? super Observable, ? extends Observable> f = onObservableAssembly;
+
+       //hook
        if (f != null) {
            return apply(f, source);
        }
@@ -40,6 +46,12 @@ public final class RxJavaPlugins {
         } catch (Throwable ex) {
             throw ExceptionHelper.wrapOrThrow(ex);
         }
+    }
+
+
+    public static void setOnObservableAssembly(Function<? super Observable, ? extends Observable> onObservableAssembly_) {
+        //···
+        onObservableAssembly = onObservableAssembly_;
     }
 
 }

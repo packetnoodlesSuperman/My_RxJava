@@ -2,7 +2,6 @@ package com.bob.rxjava.utils;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 
 import com.bob.rxjava.Disposable;
 import com.bob.rxjava.impl.Observable;
@@ -28,6 +27,11 @@ public class MainActivity extends AppCompatActivity {
 
     private static void demo1() {
         //创建一个上游 Observable：
+        /**
+         * Observable.create(new ObservableOnSubscribe<Integer>() 其实等同于 下面
+         * new ObservableCreate<T>(source)
+         * new ObservableOnSubscribe<Integer>()
+         */
         Observable<Integer> observable = Observable.create(new ObservableOnSubscribe<Integer>() {
             @Override
             public void subscribe(ObservableEmitter<Integer> emitter) throws Exception {
@@ -54,6 +58,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private static void demo2() {
-
+        Observable<Integer> observable = Observable.create(new ObservableOnSubscribe<Integer>() {
+            @Override
+            public void subscribe(ObservableEmitter<Integer> emitter) throws Exception {
+                //ObservableEmitter 发射器
+                emitter.onNext(1);
+                emitter.onNext(2);
+                emitter.onNext(3);
+                emitter.onComplete();
+            }
+        })
+//                .subscribeOn(Schedulers.io())
+                ;
     }
 }
